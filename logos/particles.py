@@ -1,6 +1,9 @@
+import numpy as np
 
 class Particles:
     """
+    particles = Particles(n, boxsize)
+
     Attributes:
       n            : number of particles
       x (array[n]) : position
