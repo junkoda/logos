@@ -17,11 +17,16 @@ def compute_power_spectrum(grid, *, subtract_shotnoise=True, correct_mas=True,
 
     if grid.mode == 'real-space':
         grid.fft_forward()
+
+    grid.interlace()
     
     # window function correction
-    #i = np.arange(nc // 2 + 1)
-    #w = np.sin(math.pi/nc*i)/(math.pi/nc*i)
-    #w[0] = 1.0
+    nc = grid.nc
+    nck = nc // 2 + 1
+    i = np.arange(nck)
+    w = np.sin(math.pi/nc*i)
+    w[0] = 1.0
+    w[1:nck] /= math.pi/nc*i[1:nck]
 
     if subtract_shotnoise:
         shotnoise = grid.shot_noise
@@ -29,9 +34,9 @@ def compute_power_spectrum(grid, *, subtract_shotnoise=True, correct_mas=True,
         shotnoise = 0.0
     
     deltak = grid.fk
-    delta2 = (deltak.real**2 + deltak.imag**2)/boxsize
+    delta2 = (deltak.real**2 + deltak.imag**2)/(boxsize*w**4)
 
-    nbin = grid.nc // (binwidth*2) - 1
+    nbin = grid.nc // (binwidth*2)
     dk = 2.0*math.pi/boxsize
 
     P = np.zeros(nbin)
@@ -46,3 +51,4 @@ def compute_power_spectrum(grid, *, subtract_shotnoise=True, correct_mas=True,
     ps.P = P
         
     return ps
+
