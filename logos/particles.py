@@ -1,3 +1,4 @@
+import math
 import numpy as np
 
 class Particles:
@@ -16,7 +17,7 @@ class Particles:
         self.u = np.zeros_like(self.x)
 
         
-    def set_velocity(grid):
+    def set_velocity(self, grid):
         """ Set particle velocity from a grid
         Arg:
            grid (array): a grid of velocity field
@@ -26,7 +27,7 @@ class Particles:
         nc = grid.shape[0]
         dx_inv = nc/self.boxsize
         
-        for i, x in enumerate(a):
+        for i, x in enumerate(self.x):
             ix = math.floor(x*dx_inv)
             w0 = x*dx_inv - ix
             w1 = 1.0 - w0

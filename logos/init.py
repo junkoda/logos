@@ -1,11 +1,11 @@
 import math
 import numpy as np
 
-def velocity_field(nc, boxsize, *, sigma_u=10.0, sigmap=1.0):
+def velocity_field(Pvel, nc, boxsize, *, sigma_u=10.0, sigmap=1.0):
     """Generate a velocity field with power spectrum
 
     Args:
-        Pvel: velocity power spectrum
+        Pvel np.array -> np.array: velocity power spectrum (function)
         sigma_u (float): normalize Pvel(k) to this velocity rms
     Pvel(k) = A*exp[ -(k*sigmap)**2 ]
     <u(x)^2> = sigma_u
@@ -19,7 +19,8 @@ def velocity_field(nc, boxsize, *, sigma_u=10.0, sigmap=1.0):
 
     k = dk*np.arange(nk)
 
-    pk = np.exp(-(k*sigmap)**2)
+    pk = Pvel(k) #np.exp(-(k*sigmap)**2)
+    
     if nc % 2 == 0:
         pk[nc // 2] = 0.0
 
@@ -33,7 +34,5 @@ def velocity_field(nc, boxsize, *, sigma_u=10.0, sigmap=1.0):
     uk[0]= 0.0;
 
     ux = np.fft.irfft(uk)*(nc/boxsize)
-
-    print('# sigma_u x space = ', np.std(ux), sigma_u)
 
     return ux
