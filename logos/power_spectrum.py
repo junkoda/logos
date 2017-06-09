@@ -32,7 +32,7 @@ def compute_power_spectrum(grid, *, subtract_shotnoise=True, correct_mas=True,
         w = np.ones(nck)
 
     if subtract_shotnoise:
-        shotnoise = grid.shot_noise
+        shotnoise = grid.shotnoise
     else:
         shotnoise = 0.0
     

@@ -7,10 +7,11 @@ def velocity_field(Pvel, nc, boxsize, *, sigma_u=10.0, sigmap=1.0):
     Args:
         Pvel np.array -> np.array: velocity power spectrum (function)
         sigma_u (float): normalize Pvel(k) to this velocity rms
+
     Pvel(k) = A*exp[ -(k*sigmap)**2 ]
     <u(x)^2> = sigma_u
 
-    Returns u(x) field
+    Returns u(x) array, A
     """
     
     nk = nc // 2 + 1
@@ -35,4 +36,4 @@ def velocity_field(Pvel, nc, boxsize, *, sigma_u=10.0, sigmap=1.0):
 
     ux = np.fft.irfft(uk)*(nc/boxsize)
 
-    return ux
+    return ux, (sigma_u/sigma_u_raw)**2
