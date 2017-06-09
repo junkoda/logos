@@ -66,7 +66,7 @@ class Grid:
         assert(self.mode == 'fourier-space')
         self.mode == 'real-space'
 
-        self.fx = np.fft.irfft(uk)/boxsize
+        self.fx = np.fft.irfft(uk)*(self.nc/boxsize)
         self.mode == 'real-space'
 
         if self.shifted is not None:
