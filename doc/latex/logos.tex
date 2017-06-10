@@ -1,0 +1,70 @@
+\documentclass[a4paper,11pt]{article}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{fancyhdr}
+\usepackage{hyperref}
+
+% Use Times fonts
+\usepackage{mathptmx}
+\usepackage[scaled]{helvet}
+\renewcommand{\ttdefault}{pcr}
+\usepackage{bm}
+
+\setlength{\oddsidemargin}{0pt}   %%% left margin
+\setlength{\textwidth}{159.2mm}
+\setlength{\topmargin}{0mm}
+\setlength{\headheight}{10mm}
+\setlength{\headsep}{10mm}         %%% length between header and test
+\setlength{\textheight}{219.2mm}
+
+\setlength{\parindent}{0pt}
+
+\pagestyle{fancy}
+\renewcommand{\headrulewidth}{0pt}
+%\fancyhf{}
+%\rhead{JK 0000 - \thepage}
+%\lfoot{}
+%\cfoot{}
+\rfoot{\url{https://github.com/junkoda/logos}}
+
+\begin{document}
+
+abc
+
+\section{Formulae}
+\subsection{1D power spectrum}
+
+The 1D power spectrum of a field $\phi$ is defined by the Fourier transform of the two-point correlation function on a line,
+\begin{equation}
+  P_\phi^{1D}(k) = \int \! dr
+                  \left\langle \phi(x, y, z) \phi(x', y, z) \right\rangle
+                  e^{-ikx},
+\end{equation}
+where $r = x - x'$.
+
+This become the projection of the 3D power spectrum,
+\begin{align}
+  P_\phi^{1D}(k) &= \int \! \frac{dk_y}{2\pi} \frac{dk_z}{2\pi}
+                   P_\phi(k, k_y, k_z)\\
+                &= \frac{1}{4\pi} \int_0^\infty d k_\perp^2 P_\phi(k, \bm{k}_\perp) 
+\end{align}
+
+The line-of-sight velocity power spectrum
+\begin{equation}
+  P_{vel} = \frac{f^2 \mu^2}{k^2} P(k)
+\end{equation}
+
+Velocity dispersion:
+\begin{align}
+  \sigma_u^2 \equiv \langle u(x)^2 \rangle
+  &= \int \! \frac{d^3 k}{(2\pi)^3} P_{vel}(k)
+   = \frac{f^2}{6\pi^2} \int_0^\infty P(k) dk \\
+  &= \int \frac{dk}{2\pi} P^{1D}_{vel}(k) dk
+\end{align}
+
+\label{LastPage}
+\end{document}
+
+%
+% 
+%
