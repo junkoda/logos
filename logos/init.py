@@ -1,6 +1,24 @@
 import math
 import numpy as np
 
+def compute_projected_velocity_power(k, P):
+    """Compute 1D power spectrum P_1D(k) from 3D power spectrum P(k)
+    Args:
+        k (array):
+        P (array): 3D density power spectrum
+
+    Returns:
+        P1 (array): 1D velocity power spectrum
+        P1(k) = \int dky kz (kx/ky)
+    """
+    n = len(k)
+    assert(len(P) == n)
+    P1 = np.zeros_like(P)
+
+    #for i in range(n):
+    
+    return P1
+
 def velocity_field(Pvel, nc, boxsize, *, sigma_u=10.0, sigmap=1.0):
     """Generate a velocity field with power spectrum
 
