@@ -1,21 +1,32 @@
 import math
 import numpy as np
+import logos.cosmology
 
-def compute_projected_velocity_power(k, P):
+def compute_projected_velocity_power(power, *, a=None):
     """Compute 1D power spectrum P_1D(k) from 3D power spectrum P(k)
     Args:
-        k (array):
-        P (array): 3D density power spectrum
+        power (2D array): k P
 
     Returns:
         P1 (array): 1D velocity power spectrum
         P1(k) = \int dky kz (kx/ky)
     """
-    n = len(k)
+
+    k = power[:, 0]
+    P = power[:, 1]
+    
+    n = power.shape[0]
     assert(len(P) == n)
     P1 = np.zeros_like(P)
 
-    #for i in range(n):
+    k2 = k**2
+    dk2 = k2[1:] - k2[:-1]
+    Puu = P/k2**2
+    f = 0.5*(Puu[1:] + Puu[:-1])
+    
+    for i in range(n):
+        # trapezoidal integral
+        P1[i] = math.pi*k2[i]*np.sum(f[i:]*dk2[i:])
     
     return P1
 
