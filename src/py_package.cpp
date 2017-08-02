@@ -1,6 +1,7 @@
 #include "Python.h"
 
 #include "corr.h"
+
 static PyMethodDef methods[] = {
   {"_corr_compute_ucorr", py_corr_compute_ucorr, METH_VARARGS,
    "compute velocity correlation function"},

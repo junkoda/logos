@@ -3,6 +3,9 @@
 #define NPY_NO_DEPRECATED_API NPY_1_7_API_VERSION
 #include "numpy/arrayobject.h"
 
+#import <iostream>
+using namespace std;
+
 PyMODINIT_FUNC
 corr_module_init()
 {
@@ -13,6 +16,8 @@ corr_module_init()
 
 void compute_ucorr(double const * const u, const int n, double* const corr)
 {
+  cerr << "compute_ucorr " << n << endl;
+  
   for(int r=0; r<n; ++r) {
     double uu= 0.0;
     for(int i=0; i<n; ++i) {
@@ -20,6 +25,8 @@ void compute_ucorr(double const * const u, const int n, double* const corr)
       uu += u[i]*u[j];
     }
     corr[r]= uu/n;
+    //if(r < 10)
+    //  cerr << corr[r] << endl;
   }
 }
 
@@ -38,7 +45,7 @@ PyObject* py_corr_compute_ucorr(PyObject* self, PyObject* args)
 
   Py_buffer buf_corr;
   
-  if(PyObject_GetBuffer(py_u, &buf_corr,
+  if(PyObject_GetBuffer(py_corr, &buf_corr,
 			PyBUF_FORMAT | PyBUF_ANY_CONTIGUOUS) == -1)
     return NULL;
 

@@ -12,7 +12,7 @@ setup(name='logos',
       py_modules=['logos.particles', 'logos.gird', 'logos.power_spectrum'],
       ext_modules=[
           Extension('logos._logos',
-                    ['src/corr.cpp', ],
+                    ['src/py_package.cpp', 'src/corr.cpp', ],
                     include_dirs = idirs,
           )
       ],
