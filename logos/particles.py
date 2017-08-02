@@ -16,10 +16,17 @@ class Particles:
       x (array[n]) : position
       u (array[n]) : velocity (RSD displacement)
     """
-    def __init__(self, n, boxsize):
+    def __init__(self, n, boxsize, *, pos='random'):
         self.boxsize = boxsize
         self.n = n
-        self.x = np.random.rand(n)*boxsize
+
+        if pos == 'random':
+            self.x = np.random.rand(n)*boxsize
+        elif pos == 'lattice':
+            self.x = (0.5 + np.arange(n))/n*boxsize
+        else:
+            raise TypeError('Unknown pos parameter %s' % pos)
+        
         self.u = np.zeros_like(self.x)
 
         

@@ -1,17 +1,17 @@
 import logos._logos as c
 import numpy as np
 
-def compute_ucorr(ugrid):
+def compute_ucorr(ugrid, nr):
     """
     Args:
-       ugrid (np.array): a grid of velocity u
+       ugrid (np.array): an array of velocity u
+       nr (int): length of output correlation funtion
 
     Returns:
        corr (np.array): array of correlation function <u(x)u(y)>
     """
 
-    n = ugrid.shape[0]
-    ucorr = np.zeros(n)
+    ucorr = np.zeros(nr)
     
     c._corr_compute_ucorr(ugrid, ucorr)
 

@@ -14,11 +14,10 @@ corr_module_init()
   return NULL;
 }
 
-void compute_ucorr(double const * const u, const int n, double* const corr)
+void compute_ucorr(double const * const u, const int n,
+		   double* const corr, const int nr)
 {
-  cerr << "compute_ucorr " << n << endl;
-  
-  for(int r=0; r<n; ++r) {
+  for(int r=0; r<nr; ++r) {
     double uu= 0.0;
     for(int i=0; i<n; ++i) {
       int j= (i + r) % n;
@@ -63,15 +62,8 @@ PyObject* py_corr_compute_ucorr(PyObject* self, PyObject* args)
     return NULL;
   }
 
-  if(buf_u.shape[0] != buf_corr.shape[0]) {
-    PyErr_SetString(PyExc_TypeError, "Expected arrays of same length");
-    PyBuffer_Release(&buf_u);
-    PyBuffer_Release(&buf_corr);
-    return NULL;
-  }
-
   compute_ucorr((double*) buf_u.buf, buf_u.shape[0],
-		(double*) buf_corr.buf);
+		(double*) buf_corr.buf, buf_corr.shape[0]);
 
   PyBuffer_Release(&buf_u);
   PyBuffer_Release(&buf_corr);
