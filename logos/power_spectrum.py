@@ -3,17 +3,25 @@ import numpy as np
 from logos.grid import Grid
 
 class PowerSpectrum:
-    def __init__(self, binwidth=100):
-        self.binwidth = binwidth
+    """
+    k (np.array):
+    P (np.array):
+    dk (float): bin width
+    """
+    def __init__(self):
+        pass
+
 
 
 def compute_power_spectrum(grid, *, subtract_shotnoise=True, correct_mas=True,
-                           binwidth=100):
+                           dk=0.01, k_max=None):
     """
     Compute power spectrum of delta array
     """
 
     boxsize = grid.boxsize
+    if k_max is None:
+        k_max = grid.nc / 2
 
     if grid.mode == 'real-space':
         grid.fft_forward()
@@ -39,19 +47,25 @@ def compute_power_spectrum(grid, *, subtract_shotnoise=True, correct_mas=True,
     deltak = grid.fk
     delta2 = (deltak.real**2 + deltak.imag**2)/(boxsize*w**4)
 
-    nbin = grid.nc // (binwidth*2)
-    dk = 2.0*math.pi/boxsize
+    nbin = round(k_max / dk)
+    dk_fundamental = 2.0*math.pi/boxsize
 
+    k_grid = (1 + np.arange(nck))*dk_fundamental
+    
     P = np.zeros(nbin)
     k = np.zeros(nbin)
 
     for ik in range(nbin):
-        P[ik]= np.mean(delta2[(1 + ik*binwidth):(1 + (ik + 1)*binwidth)]) - shotnoise
-        k[ik] = dk*(1 + (ik + 0.5)*binwidth)
+        idx = np.logical_and(dk*ik <= k_grid, k_grid < dk*(ik + 1))
+        k[ik] = dk*(ik + 0.5)
+        P[ik]= np.mean(delta2[idx]) - shotnoise
+        #P[ik]= np.mean(delta2[(1 + ik*binwidth):(1 + (ik + 1)*binwidth)]) - shotnoise
+        #k[ik] = dk*(1 + (ik + 0.5)*binwidth)
 
     ps = PowerSpectrum()
     ps.k = k
     ps.P = P
-        
+    ps.dk = dk
+    
     return ps
 

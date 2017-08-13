@@ -5,6 +5,8 @@
 static PyMethodDef methods[] = {
   {"_corr_compute_ucorr", py_corr_compute_ucorr, METH_VARARGS,
    "compute velocity correlation function"},
+  {"_corr_compute_umoments", py_corr_compute_umoments, METH_VARARGS,
+   "compute relative velocity moments"},
 
     {NULL, NULL, 0, NULL}
 };
